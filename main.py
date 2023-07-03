@@ -41,7 +41,7 @@ def createGame():
         "Content-Type": "application/json",
         "X-Requested-With": "com.tencent.mm",
     }
-    data = {"activity_id": 1000000, "game_pk_id": "7398502-00-V2D-WXzWj2QxYjE4YjU"}
+    data = {"activity_id": activity_id, "game_pk_id": ""}
     res = requests.post(url=url, headers=head, json=data, timeout=5).json()
     # printf(res)
     _datas = res.get("data")
@@ -88,7 +88,7 @@ def submitGame(items, score):
         "X-Requested-With": "com.tencent.mm",
     }
     data = {
-        "activity_id": 1000000,
+        "activity_id": activity_id,
         "game_id": gameId,
         "game_report_score_info": {
             "score_items": items,
@@ -120,7 +120,7 @@ def getConpun():
         "X-Requested-With": "com.tencent.mm",
     }
     data = {
-        "activity_id": 1000000,
+        "activity_id": activity_id,
         "game_id": gameId,
         "obtain_ornament": True,
         "request_id": "osd2L5ZiTu4UDWiNrB8bxnlVB-bQ_lj440mdj_" + generate_random_str(4),
@@ -136,6 +136,7 @@ if __name__ == "__main__":
     token = '示例 请修改为自己账号的token'
     # 大于多少分提交游戏领取提现券
     maxScore = 7000
+    activity_id = 1000003
     while True:
         items = []
         datas = createGame()
