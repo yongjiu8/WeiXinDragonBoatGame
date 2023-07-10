@@ -41,7 +41,7 @@ def createGame():
         "Content-Type": "application/json",
         "X-Requested-With": "com.tencent.mm",
     }
-    data = {"activity_id": activity_id, "game_pk_id": ""}
+    data = {"activity_id": activity_id, "game_pk_id": game_pk_id}
     res = requests.post(url=url, headers=head, json=data, timeout=5).json()
     # printf(res)
     _datas = res.get("data")
@@ -70,7 +70,7 @@ def startGame():
         "event_list": [
             {
                 "event_code": "ActivityGameBegin",
-                "event_target": "1000000",
+                "event_target": str(activity_id),
                 "intval1": 2,
                 "strval1": gameId,
             }
@@ -133,10 +133,11 @@ def getConpun():
 
 if __name__ == "__main__":
     # 账号token
-    token = '示例 请修改为自己账号的token'
+    token = '改成你抓包的session_token'
     # 大于多少分提交游戏领取提现券
-    maxScore = 7000
-    activity_id = 1000003
+    maxScore = 10000
+    activity_id = 1000005
+    game_pk_id = ''
     while True:
         items = []
         datas = createGame()
@@ -156,7 +157,7 @@ if __name__ == "__main__":
         logging.info(f"预测分数：{score}")
         if score < maxScore:
             continue
-
+        logging.info(f'分数达标，开始玩游戏，请耐心等待。。。')
         startGame()
         score = 0
         for it in datas["play_script"]["dragon_boat_2023_play_script"]["tracks"]:
