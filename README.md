@@ -27,9 +27,6 @@ python main.py
 
 #  警告：软件免费开源，仅供学习交流使用，请勿用于非法用途！
 
-# 赚钱加微信：ane72983011cr
-![赚钱加微信：ane72983011cr](money.jpg)
-
 # 加作者微信：g4994g 拉你加入忒星科技活动开源交流群
 
 ![mmqrcode1673591083873](https://user-images.githubusercontent.com/49848349/212251962-c33c2a09-cc30-47ac-a684-85b11d49017e.png)
