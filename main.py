@@ -133,7 +133,7 @@ def getConpun():
 
 if __name__ == "__main__":
     # 账号token
-    token = '改成你抓包的session_token'
+    token = 'GkvznYhTJVqVmeQ8w4icCGt72uBibiajiad6Rz8KWYzic8SjazWZmH1iaMweDRGB'
     # 大于多少分提交游戏领取提现券
     maxScore = 10000
     activity_id = 1000005
