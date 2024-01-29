@@ -54,7 +54,8 @@ def createGame():
         "content-type": "application/json",
         "mpm-version": "8.0.46",
     }
-    data = {"activity_id": activity_id, "game_pk_id": game_pk_id}
+    #data = {"activity_id": activity_id, "game_pk_id": game_pk_id}
+    data = {"activity_id": activity_id}
     res = requests.post(url=url, headers=head, json=data, timeout=5).json()
     # printf(res)
     _datas = res.get("data")
@@ -104,15 +105,26 @@ def submitGame(items, score):
         "content-type": "application/json",
         "mpm-version": "8.0.46",
     }
-    data = {
-        "activity_id": activity_id,
-        "game_id": gameId,
-        "game_report_score_info": {
-            "score_items": items,
-            "game_score": score,
-            "total_score": score + pk_f,
-        },
-    }
+    if module:
+        data = {
+            "activity_id": activity_id,
+            "game_id": gameId,
+            "game_report_score_info": {
+                "score_items": items,
+                "game_score": score,
+                "total_score": score + pk_f,
+            },
+        }
+    else:
+        data = {
+            "activity_id": activity_id,
+            "game_id": gameId,
+            "game_report_score_info": {
+                "score_items": items,
+                "game_score": score,
+                "total_score": score,
+            },
+        }
     res = requests.post(url=url, headers=head, json=data, timeout=5).json()
     logging.info(res)
 
@@ -148,6 +160,7 @@ def getConpun():
 
 
 if __name__ == "__main__":
+    logging.info('本脚本可跑俩次,一次pk模式和一次正常模式,超出均会系统错误')
     head = {
         "Referer": "https://td.cdn-go.cn/",
         "Content-Type": "application/json",
@@ -167,14 +180,26 @@ if __name__ == "__main__":
         "mpm-version": "8.0.46",
     }
     # 账号token
-    token = 'ABBwEaIDAAABAAAAAABztmY_LyIU07RBZ0m3ZRAAAAClvZTgDOvAQqLcQuQHgdxZKdrIs7YY65u4F0tWOE9sswWm_ZZ9Gqqf9ZiDa4dHvCW99yGHIBHsc5AB0-M7He-1LNoBEJbfDbMSNSV5FYRXCNCgGd0sh1YmJa59IOUhbb-lYy1-nmUtSDUBhpZH0KYB'
+    token = ''
     # 大于多少分提交游戏领取提现券
     maxScore = 7373
     activity_id = 1000013
+    # 模式，True为开启pk，False为关闭
+    module = True
     # pk_id
     game_pk_id = ''
     # pk_id分数
     pk_f = 7373
+    if token == '':
+        print('请输入token')
+        exit()
+    if module:
+        logging.info('当前为pk模式,如果最后系统错误大概率是pk_id和分数不对应或已领取过pk奖励')
+        if game_pk_id == '':
+            print("请输入pk_id和相应分数")
+            exit()
+    else:
+        logging.info('当前为正常模式,如果最后系统错误大概率是已领取过')
     while True:
         items = []
         datas = createGame()
@@ -214,6 +239,10 @@ if __name__ == "__main__":
         submitGame(items, score)
         scoreItem = getScore()
         logging.info(f'分数：{scoreItem["gamer_play_score"]} 游戏id：{scoreItem["game_id"]}')
-        logging.info(f'提现券：{scoreItem["gamer_play_score"]+pk_f}元')
+        if module:
+            txq = scoreItem["gamer_play_score"]+pk_f
+        else:
+            txq = scoreItem["gamer_play_score"]
+        logging.info(f'提现券：{txq}元')
         getConpun()
         break
