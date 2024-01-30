@@ -237,8 +237,7 @@ if __name__ == "__main__":
                     }
                 )
                 score = score + upScore
-                time.sleep(0.07)
-        time.sleep(5)
+                time.sleep(0.09)
         submitGame(items, score)
         scoreItem = getScore()
         logging.info(f'分数：{scoreItem["gamer_play_score"]} 游戏id：{scoreItem["game_id"]}')
