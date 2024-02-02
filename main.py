@@ -54,8 +54,10 @@ def createGame():
         "content-type": "application/json",
         "mpm-version": "8.0.46",
     }
-    #data = {"activity_id": activity_id, "game_pk_id": game_pk_id}
-    data = {"activity_id": activity_id}
+    if module:
+        data = {"activity_id": activity_id, "game_pk_id": game_pk_id}
+    else:
+        data = {"activity_id": activity_id}
     res = requests.post(url=url, headers=head, json=data, timeout=5).json()
     # printf(res)
     _datas = res.get("data")
@@ -185,7 +187,7 @@ if __name__ == "__main__":
     maxScore = 7373
     activity_id = 1000013
     # 模式，True为开启pk，False为关闭
-    module = True
+    module = False
     # pk_id
     game_pk_id = ''
     # pk_id分数
@@ -235,7 +237,7 @@ if __name__ == "__main__":
                     }
                 )
                 score = score + upScore
-                time.sleep(0.07)
+                time.sleep(0.09)
         submitGame(items, score)
         scoreItem = getScore()
         logging.info(f'分数：{scoreItem["gamer_play_score"]} 游戏id：{scoreItem["game_id"]}')
